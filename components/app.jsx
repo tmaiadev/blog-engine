@@ -8,7 +8,11 @@ function App({ children }) {
       <style jsx>
         {`
           .app {
-            --primary-color: #007aff;
+            --primary-color: #274472;
+            --secondary-color: #5885AF;
+            --tertiary-color: #41729F;
+            --quartenary-color: #C3E0E5;
+            --accent-color: #FAD02C;
           }
           * {
             font-family: Arial;

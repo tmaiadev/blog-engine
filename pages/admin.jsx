@@ -1,32 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'proptypes';
-import jwt from 'jsonwebtoken';
-import cookies from 'next-cookies';
+import Dashboard from '../components/dashboard';
+import { getLoggedInUser } from '../libs/auth';
 
 function Admin({ user }) {
-  useEffect(() => {
-    if (!user) location.href = '/admin/login';
-  });
-
   return (
-    <div className="admin-page">
-      <h1>Admin</h1>
-    </div>
+    <Dashboard user={user}>
+      ADMIN
+    </Dashboard>
   );
 }
 
-Admin.getInitialProps = (ctx) => {
-  const { token } = cookies(ctx);
-  if (!token) return {};
-
-  const user = jwt.decode(token, process.env.JWT_TOKEN);
-  if (!user) return {};
-
-  const timeLeft = user.validUntil - new Date();
-  if (timeLeft <= 0) return {};
-
-  return { user: user.email };
-};
+Admin.getInitialProps = getLoggedInUser;
 
 Admin.propTypes = {
   user: PropTypes.string,

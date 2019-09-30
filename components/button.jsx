@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function Button({
@@ -10,10 +10,9 @@ function Button({
   'aria-label': ariaLabel,
 }) {
   return (
-    <Fragment>
+    <>
       <button
         type={type}
-        className={type}
         id={id}
         onClick={onClick}
         aria-label={ariaLabel}
@@ -40,7 +39,7 @@ function Button({
           }
         `}
       </style>
-    </Fragment>
+    </>
   );
 }
 
@@ -48,6 +47,11 @@ Button.propTypes = {
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   id: PropTypes.string,
   disabled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.oneOf([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]).isRequired,
   'aria-label': PropTypes.string,
 };
 

@@ -8,7 +8,6 @@ function Input({
   label,
   required,
   disabled,
-  autoFocus,
   onChange,
 }) {
   return (
@@ -26,27 +25,28 @@ function Input({
         name={name}
         required={required}
         disabled={disabled}
-        autoFocus={autoFocus}
         className="input__input"
         onChange={onChange}
       />
-      <style jsx>{`
-        .input {
-          display: grid;
-        }
-        .input__label {
-          font-weight: bold;
-          margin-bottom: 4px;
-        }
-        .input__input {
-          height: 40px;
-          border-radius: 4px;
-          border: solid thin #CCC;
-          padding: 0px 16px;
-        }
-      `}</style>
+      <style jsx>
+        {`
+          .input {
+            display: grid;
+          }
+          .input__label {
+            font-weight: bold;
+            margin-bottom: 4px;
+          }
+          .input__input {
+            height: 40px;
+            border-radius: 4px;
+            border: solid thin #CCC;
+            padding: 0px 16px;
+          }
+        `}
+      </style>
     </div>
-  )
+  );
 }
 
 Input.propTypes = {
@@ -56,15 +56,12 @@ Input.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
-  autoFocus: PropTypes.bool,
   onChange: PropTypes.func,
-}
+};
 
 Input.defaultProps = {
-  type: 'text',
   required: false,
   disabled: false,
-  autoFocus: false,
   onChange: () => {},
 };
 

@@ -1,33 +1,28 @@
-import jwt from 'jsonwebtoken';
+import { encode } from '../../libs/auth';
+import { InvalidCredentialError } from '../../constants/errors';
 
 let nFailedAttempts = 0;
 
 const failedAttemptsDelay = () => new Promise(
-  (resolve) => setTimeout(resolve, nFailedAttempts * 1000)
+  (resolve) => setTimeout(resolve, nFailedAttempts * 1000),
 );
 
-export default async function(req, res) {
+export default async function (req, res) {
   try {
     const { email, password } = JSON.parse(req.body);
-    const { ADMIN_EMAIL, ADMIN_PASSWORD, JTW_KEY } = process.env;
+    const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
 
     await failedAttemptsDelay();
 
     if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
-      nFailedAttempts++;
-      throw {
-        code: 400,
-        message: 'Invalid credentials',
-      };
+      nFailedAttempts += 1;
+      throw new InvalidCredentialError();
     }
 
     nFailedAttempts = 0;
 
-    const validUntil = new Date();
-    validUntil.setMinutes(validUntil.getMinutes() + 5);
+    const token = encode(email);
 
-    const token = jwt.sign({ email, validUntil }, JTW_KEY);
-    
     res.setHeader('Content-Type', 'application/json');
     res.send({ token });
   } catch (e) {
